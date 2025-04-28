@@ -1,0 +1,205 @@
+{% extends "cesostaff_base.html" %}
+
+{% block title %}Create New Activity{% endblock %}
+
+{% block content %}
+<style>
+    /* Always make form inputs full width */
+    .form-control {
+        width: 100%;
+    }
+
+    /* Force black text inside form fields even in dark mode */
+    .form-control, .form-control::placeholder {
+        color: #000 !important;
+    }
+
+    /* Optional: keep textareas readable too */
+    textarea.form-control {
+        color: #000 !important;
+    }
+    button[type="submit"]:hover {
+        background-color: #0056b3; /* darker blue on hover */
+        border-color: #0056b3;
+    }
+
+</style>
+
+<div class="container my-5">
+    <h1 class="text-center mb-4">Create New Activity</h1>
+
+    <form method="POST" enctype="multipart/form-data" class="form-content">
+        {% csrf_token %}
+        
+        <!-- Non-field errors -->
+        <div class="mb-4">
+            {{ form.non_field_errors }}
+        </div>
+
+        <!-- Title -->
+        <div class="form-group mb-4">
+            <label for="id_title" class="form-label">Title/Topic </label>
+            {{ form.title }}
+            <small class="form-text text-danger">{{ form.title.errors }}</small>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Start Date -->
+        <div class="form-group mb-4">
+            <label for="id_start_date" class="form-label">Start Date</label>
+            <input type="date" id="id_start_date" name="start_date" class="form-control" required>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- End Date -->
+        <div class="form-group mb-4">
+            <label for="id_end_date" class="form-label">End Date</label>
+            <input type="date" id="id_end_date" name="end_date" class="form-control" required>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Start Time -->
+        <div class="form-group mb-4">
+            <label for="id_start_time" class="form-label">Start Time</label>
+            <input type="time" id="id_start_time" name="start_time" class="form-control" required>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- End Time -->
+        <div class="form-group mb-4">
+            <label for="id_end_time" class="form-label">End Time</label>
+            <input type="time" id="id_end_time" name="end_time" class="form-control" required>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Venue -->
+        <div class="form-group mb-4">
+            <label for="id_venue" class="form-label">Venue</label>
+            {{ form.venue }}
+            <small class="form-text text-danger">{{ form.venue.errors }}</small>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Conducted By -->
+        <div class="form-group mb-4">
+            <label for="id_conducted_by" class="form-label">Conducted By</label>
+            {{ form.conducted_by }}
+            <small class="form-text text-danger">{{ form.conducted_by.errors }}</small>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Fees/Expenses -->
+        <div class="form-group mb-4">
+            <label for="id_fees_expenses" class="form-label">Fees/Expenses</label>
+            {{ form.fees_expenses }}
+            <small class="form-text text-danger">{{ form.fees_expenses.errors }}</small>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Tags -->
+        <div class="form-group mb-4">
+            <label for="id_tags" class="form-label">Tags</label>
+            {{ form.tags }}
+            <small class="form-text text-danger">{{ form.tags.errors }}</small>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Faculty -->
+        <div class="form-group mb-4">
+            <label class="form-label">Faculty</label>
+            <div class="row">
+                <div class="col-sm-6 mb-2">
+                    <label for="faculty_name" class="form-label">Faculty Name</label>
+                    <input type="text" id="faculty_name" name="faculty_name" class="form-control" required>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label for="faculty_department" class="form-label">Department</label>
+                    <input type="text" id="faculty_department" name="faculty_department" class="form-control" required>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Students -->
+        <div class="form-group mb-4">
+            <label class="form-label">Students</label>
+            <div class="row">
+                <div class="col-sm-6 mb-2">
+                    <label for="student_name" class="form-label">Student Name</label>
+                    <input type="text" id="student_name" name="student_name" class="form-control" required>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label for="student_department" class="form-label">Department</label>
+                    <input type="text" id="student_department" name="student_department" class="form-control" required>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Staff -->
+        <div class="form-group mb-4">
+            <label class="form-label">Staff</label>
+            <div class="row">
+                <div class="col-sm-6 mb-2">
+                    <label for="staff_name" class="form-label">Staff Name</label>
+                    <input type="text" id="staff_name" name="staff_name" class="form-control" required>
+                </div>
+                <div class="col-sm-6 mb-2">
+                    <label for="staff_department" class="form-label">Department</label>
+                    <input type="text" id="staff_department" name="staff_department" class="form-control" required>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Description -->
+        <div class="form-group mb-4">
+            <label for="id_description" class="form-label">Description</label>
+            {{ form.description }}
+            <small class="form-text text-danger">{{ form.description.errors }}</small>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- File Upload -->
+        <div class="form-group mb-4">
+            <label for="id_attachment" class="form-label">Attachment</label>
+            {{ form.attachment }}
+            <small class="form-text text-danger">{{ form.attachment.errors }}</small>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Status -->
+        <div class="form-group mb-4">
+            <label for="id_status" class="form-label">Status</label>
+            {{ form.status }}
+            <small class="form-text text-danger">{{ form.status.errors }}</small>
+        </div>
+
+        <hr>
+
+        <!-- Submit -->
+        <div class="form-group mt-3">
+            <div class="text-center">
+                <button type="submit" class="btn btn-lg rounded-pill px-5"
+                    style="background-color: #007BFF; color: white; border: 2px solid #007BFF; margin-top: 10px; transition: 0.3s;">
+                    Submit Activity
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

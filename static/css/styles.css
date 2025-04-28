@@ -1,0 +1,230 @@
+/* Create Activity Form */
+.create-activity-form {
+    max-width: 900px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-activity-form h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Form Content */
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Form Group Styling */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+/* Input and select fields */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+/* Error Messages */
+.error-list {
+    color: #ff4d4d;
+    font-size: 0.9rem;
+    list-style: none;
+    margin-top: 5px;
+}
+
+.error-list p {
+    margin: 0;
+}
+
+/* Divider Styling */
+hr.divider {
+    border: 0;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 20px 0;
+}
+
+/* Submit Button */
+.submit-group {
+    text-align: center;
+}
+
+.btn-submit {
+    background-color: #0077cc;
+    color: white;
+    font-size: 1.2rem;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 250px;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #005fa3;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+    .create-activity-form {
+        padding: 15px;
+    }
+
+    .create-activity-form h1 {
+        font-size: 1.6rem; /* Smaller header for mobile */
+        text-align: center;
+    }
+
+    .form-content {
+        gap: 15px;
+    }
+
+    .form-group label {
+        font-size: 1rem; /* Smaller labels for mobile */
+    }
+
+    input, select, textarea {
+        font-size: 0.95rem; /* Slightly smaller inputs */
+        padding: 10px;
+    }
+
+    .btn-submit {
+        width: 100%; /* Full-width button */
+        padding: 14px;
+        font-size: 1rem; /* Smaller button text */
+    }
+
+    hr.divider {
+        margin: 15px 0; /* Reduce divider space */
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 480px) {
+    .create-activity-form {
+        padding: 10px;
+    }
+
+    .create-activity-form h1 {
+        font-size: 1.4rem; /* Even smaller header for very small screens */
+    }
+
+    .form-content {
+        gap: 10px;
+    }
+
+    .btn-submit {
+        padding: 12px; /* Adjust button size */
+        font-size: 0.95rem; /* Smaller font size for very small screens */
+    }
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #0077cc;
+    color: white;
+}
+
+.navbar .navbar-nav {
+    display: flex;
+    gap: 15px;
+}
+
+/* Hide menu links in mobile view */
+@media (max-width: 768px) {
+    .navbar-nav {
+        display: none; /* Hide the navbar items on mobile */
+        flex-direction: column; /* Stack navbar items vertically */
+        width: 100%; /* Full width */
+        background-color: #0077cc; /* Same as navbar background */
+    }
+
+    .navbar-nav.show {
+        display: flex; /* Show the menu when the 'show' class is added */
+    }
+
+    .navbar-toggler {
+        display: block; /* Show the hamburger menu button */
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .navbar-toggler-icon {
+        width: 30px;
+        height: 3px;
+        background-color: white;
+        position: relative;
+    }
+
+    .navbar-toggler-icon::before,
+    .navbar-toggler-icon::after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 3px;
+        background-color: white;
+        left: 0;
+        transition: transform 0.3s ease;
+    }
+
+    .navbar-toggler-icon::before {
+        top: -10px;
+    }
+
+    .navbar-toggler-icon::after {
+        top: 10px;
+    }
+
+    .navbar-nav a {
+        padding: 10px;
+        text-align: center;
+        font-size: 1.2rem;
+        color: white;
+        text-decoration: none;
+    }
+
+    .navbar-nav a:hover {
+        background-color: #005fa3; /* Hover effect for navbar links */
+    }
+}
+
+/* For showing the hamburger icon toggling the menu */
+@media (max-width: 768px) {
+    .navbar-toggler.active .navbar-toggler-icon::before {
+        transform: rotate(45deg);
+        top: 0;
+    }
+
+    .navbar-toggler.active .navbar-toggler-icon::after {
+        transform: rotate(-45deg);
+        top: 0;
+    }
+}

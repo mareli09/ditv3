@@ -1,0 +1,103 @@
+{% extends "cesostaff_base.html" %}
+
+{% block title %}Activities List{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 1500px; margin: 0; padding: 0;">
+    <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0;">
+        <!-- Title -->
+        <h1 style="font-size: 2rem; font-weight: bold; margin: 0;">Activities List</h1>
+        
+        <!-- Search Filter -->
+        <form method="get" action="" style="display: flex; align-items: center; gap: 10px; margin-bottom: 0;">
+            <input 
+                type="text" 
+                name="search" 
+                value="{{ search_query }}" 
+                style="padding: 10px; width: 300px; border: 2px solid #007BFF; border-radius: 5px;" 
+                placeholder="Search Activities..."
+            />
+            <button 
+                type="submit" 
+                style="background-color: #007BFF; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+                Search
+            </button>
+        </form>
+    </div>
+
+    <!-- Table Container (for scroll) -->
+    <div style="overflow-x: auto; width: 100%; margin-top: 10px; padding: 0;">
+        <!-- Table -->
+        <table style="min-width: 1000px; width: 100%; border-collapse: collapse; background-color: white; border: 2px solid #007BFF; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <thead style="background-color: #007BFF; font-size: 0.875rem; color: white;">
+                <tr>
+                    <th style="padding: 10px; text-align: left;">#</th>
+                    <th style="padding: 10px; text-align: left;">Title</th>
+                    <th style="padding: 10px; text-align: left;">Description</th>
+                    <th style="padding: 10px; text-align: left;">Start Date</th>
+                    <th style="padding: 10px; text-align: left;">End Date</th>
+                    <th style="padding: 10px; text-align: left;">Time</th>
+                    <th style="padding: 10px; text-align: left;">Venue</th>
+                    <th style="padding: 10px; text-align: left;">Conducted By</th>
+                    <th style="padding: 10px; text-align: left;">Fees/Expenses</th>
+                    <th style="padding: 10px; text-align: left;">Tags</th>
+                    <th style="padding: 10px; text-align: left;">Attachment</th>
+                    <th style="padding: 10px; text-align: left;">Date Submitted</th>
+                    <th style="padding: 10px; text-align: left;">Edited Date</th>
+                    <th style="padding: 10px; text-align: left;">Actions</th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 0.875rem; color: #555;">
+                {% for activity in page_obj %}
+                <tr style="border-top: 1px solid #ddd;">
+                    <td style="padding: 10px;">{{ forloop.counter }}</td>
+                    <td style="padding: 10px;">{{ activity.title }}</td>
+                    <td style="padding: 10px;">{{ activity.description }}</td>
+                    <td style="padding: 10px;">{{ activity.start_date }}</td>
+                    <td style="padding: 10px;">{{ activity.end_date }}</td>
+                    <td style="padding: 10px;">{{ activity.start_time }} - {{ activity.end_time }}</td>
+                    <td style="padding: 10px;">{{ activity.venue|default:"N/A" }}</td>
+                    <td style="padding: 10px;">{{ activity.conducted_by|default:"N/A" }}</td>
+                    <td style="padding: 10px;">{{ activity.fees_expenses|default:"N/A" }}</td>
+                    <td style="padding: 10px;">{{ activity.tags|default:"N/A" }}</td>
+                    <td style="padding: 10px;">
+                        {% if activity.attachment %}
+                        <a href="{{ activity.attachment.url }}" style="color: #007BFF; text-decoration: underline;" target="_blank">View</a>
+                        {% else %} 
+                        N/A
+                        {% endif %}
+                    </td>
+                    <td style="padding: 10px;">{{ activity.date_submitted|date:"Y-m-d H:i" }}</td>
+                    <td style="padding: 10px;">{{ activity.last_edited_date|date:"Y-m-d H:i" }}</td>
+                    <td style="padding: 10px;">
+                        <a href="#" style="background-color: #007BFF; color: white; padding: 5px 10px; text-decoration: none; border-radius: 5px;">Edit</a>
+                        <form method="POST" action="#" style="display: inline-block; margin-left: 5px;">
+                            {% csrf_token %}
+                            <button type="submit" style="background-color: red; color: white; padding: 5px 10px; border: none; border-radius: 5px;">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="13" class="text-center py-4">No activities found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="mt-4" style="text-align: center;">
+            <span>Page: </span>
+            <span class="inline-block">
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <span class="text-blue-600 font-bold">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}" class="text-blue-600 hover:text-blue-800">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+            </span>
+        </div>
+    </div>
+</div>
+{% endblock %}

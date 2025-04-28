@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}CESO Dashboard{% endblock %}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+        
+        <!-- Tailwind CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            // Set Tailwind to use class-based dark mode
+            tailwind.config = {
+                darkMode: 'class', 
+            };
+        </script>
+        
+        <style>
+            .form-control {
+                min-height: 45px;
+                font-size: 1rem;
+                border: 1px solid #ced4da; /* light gray border */
+                border-radius: 0.375rem; /* rounded corners */
+            }
+        
+            textarea.form-control {
+                min-height: 120px;
+            }
+        
+            input[type="file"].form-control {
+                padding: 8px;
+            }
+        </style>
+        {% block extra_head %}{% endblock %}
+    </head>
+<body class="bg-white text-gray-800 dark:bg-gray-900 dark:text-gray-200 m-0">
+    <div class="flex min-h-screen m-0 p-0">
+        <!-- Sidebar -->
+        <button class="fixed top-4 left-4 p-2 border-2 border-gray-800 dark:border-white text-gray-800 dark:text-white rounded-md z-10 md:hidden" onclick="toggleNav()">☰</button>
+        <nav id="sideNav" class="w-64 bg-gray-100 dark:bg-gray-800 p-6 transition-transform transform md:relative fixed inset-0 md:static md:flex md:flex-col space-y-4 md:space-y-6">
+            <h5 class="text-xl text-gray-800 dark:text-gray-200">CESO Dashboard</h5>
+            <ul class="space-y-4">
+                <li><a href="{% url 'create_activity' %}" class="block text-gray-800 dark:text-gray-200 hover:bg-gray-800 hover:text-white dark:hover:bg-gray-400 dark:hover:text-gray-800 p-2 rounded-md">Create Activity</a></li>
+                <li><a href="{% url 'manage_activities' %}" class="block text-gray-800 dark:text-gray-200 hover:bg-gray-800 hover:text-white dark:hover:bg-gray-400 dark:hover:text-gray-800 p-2 rounded-md">Manage Activities</a></li>
+                <li><a href="{% url 'manage_research' %}" class="block text-gray-800 dark:text-gray-200 hover:bg-gray-800 hover:text-white dark:hover:bg-gray-400 dark:hover:text-gray-800 p-2 rounded-md">Manage Research</a></li>
+                <li><a href="{% url 'manage_certificates' %}" class="block text-gray-800 dark:text-gray-200 hover:bg-gray-800 hover:text-white dark:hover:bg-gray-400 dark:hover:text-gray-800 p-2 rounded-md">Manage Certificates</a></li>
+                <li><a href="{% url 'view_reports' %}" class="block text-gray-800 dark:text-gray-200 hover:bg-gray-800 hover:text-white dark:hover:bg-gray-400 dark:hover:text-gray-800 p-2 rounded-md">View Reports</a></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" class="m-0">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full bg-gray-800 dark:bg-gray-400 text-white p-2 rounded-md">Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="flex-grow p-0 md:pl-10 md:pt-0">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Dark Mode Toggle -->
+    <button class="fixed bottom-5 left-5 bg-gray-800 dark:bg-gray-200 text-white p-3 rounded-full" onclick="toggleDarkMode()">🌙</button>
+
+    <script>
+        // Function to read a specific cookie value by name
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(';');
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookie = cookieArr[i].trim();
+                if (cookie.startsWith(name + "=")) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null;
+        }
+    
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            let d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/";
+        }
+    
+        // Set dark mode class on page load based on cookie
+        window.onload = function() {
+            const darkModeCookie = getCookie('dark_mode');
+            if (darkModeCookie === 'true') {
+                document.documentElement.classList.add('dark');  // Add 'dark' class to html element if cookie is set to true
+            } else {
+                document.documentElement.classList.remove('dark');  // Ensure dark class is removed if no cookie or if it's false
+            }
+        };
+    
+        // Toggle dark mode and set cookie
+        function toggleDarkMode() {
+            const htmlElement = document.documentElement;
+            const isDark = htmlElement.classList.toggle('dark');
+            setCookie("dark_mode", isDark ? 'true' : 'false', 30);  // Set the cookie for 30 days
+        }
+    </script>
+</body>
+</html>
