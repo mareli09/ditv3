@@ -19,6 +19,9 @@ urlpatterns = [
     path('activities/<int:pk>/', views.view_activity, name='view_activity'),
     path('activities/<int:pk>/update/', views.update_activity, name='update_activity'),
     path('activity/edit/<int:pk>/', views.edit_activity, name='edit_activity'),
-    path('activities/view/<int:id>/', views.view_activity, name='view_activity')
+    path('activities/view/<int:id>/', views.view_activity, name='view_activity'),
+    path('activities/<int:activity_id>/archive/', views.archive_activity, name='archive_activity'),
+    path('archived-activities/', views.archived_activities, name='archived_activities'),
+    path('restore-activity/<int:pk>/', views.restore_activity, name='restore_activity'),
 ]
 

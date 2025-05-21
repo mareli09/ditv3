@@ -92,9 +92,9 @@ def create_activity(request):
 def manage_activities(request):
     # Get search query from GET request
     search_query = request.GET.get('search', '')
+    activities = Activity.objects.filter(is_archived=False)  # Exclude archived activities
 
     # Filter activities based on the search query if provided
-    activities = Activity.objects.all()
     if search_query:
         activities = activities.filter(title__icontains=search_query)
 
@@ -144,3 +144,34 @@ def edit_activity(request, pk):
         form = ActivityForm(instance=activity)
     
     return render(request, 'edit_activity.html', {'form': form, 'activity': activity})
+
+@login_required
+def archive_activity(request, activity_id):
+    activity = get_object_or_404(Activity, pk=activity_id)
+    activity.is_archived = True
+    activity.save()
+    messages.success(request, f"Activity '{activity.title}' has been archived.")
+    return redirect('manage_activities')
+
+@login_required
+def archived_activities(request):
+    activities = Activity.objects.filter(is_archived=True)  # Only archived activities
+    paginator = Paginator(activities, 10)  # Pagination
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'archived_activities.html', {
+        'page_obj': page_obj,
+    })
+
+def restore_activity(request, pk):
+    # Fetch the activity by primary key
+    activity = get_object_or_404(Activity, pk=pk)
+
+    # Update the is_archived field
+    if activity.is_archived:
+        activity.is_archived = False
+        activity.save()
+
+    # Redirect back to the archived activities page
+    return redirect('archived_activities')  # Adjust this if needed

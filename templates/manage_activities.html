@@ -92,7 +92,7 @@
                                 Edit
                             </a>
                             <!-- Archive Button -->
-                            <form method="POST" action="#" style="display: inline;">
+                            <form method="POST" action="{% url 'archive_activity' activity.id %}" style="display: inline;">
                                 {% csrf_token %}
                                 <button 
                                     type="submit" 
@@ -127,7 +127,9 @@
 
         <!-- View Archive Button -->
         <div style="text-align: left; margin: 10px 0px;">
-            <a href="#" style="background-color: #007BFF; color: white; padding: 15px 10px; text-decoration: none; border-radius: 3px;">View Archive</a>
+            <a href="{% url 'archived_activities' %}" style="background-color: #007BFF; color: white; padding: 15px 10px; text-decoration: none; border-radius: 3px;">
+                View Archive
+            </a>
         </div>
     </div>
 </div>

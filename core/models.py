@@ -23,6 +23,7 @@ class UserProfile(models.Model):
     course = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
 
     def __str__(self):
         return f"{self.user.username} - {self.role}"
@@ -58,6 +59,8 @@ class Activity(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
     fees_expenses = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     tags = models.CharField(max_length=255, null=True, blank=True)
+    archived = models.BooleanField(default=False)
+    is_archived = models.BooleanField(default=False) 
 
     def __str__(self):
         return self.title
