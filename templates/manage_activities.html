@@ -3,6 +3,14 @@
 {% block title %}Activities List{% endblock %}
 
 {% block content %}
+<style>
+    @media (max-width: 600px) {
+        .actions-cell div {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+</style>
 <div class="container" style="max-width: 1500px; margin: 0; padding: 0;">
     <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 0;">
         <!-- Title -->
@@ -69,12 +77,30 @@
                     </td>
                     <td style="padding: 10px;">{{ activity.date_submitted|date:"Y-m-d H:i" }}</td>
                     <td style="padding: 10px;">{{ activity.last_edited_date|date:"Y-m-d H:i" }}</td>
-                    <td style="padding: 10px;">
-                        <a href="#" style="background-color: #007BFF; color: white; padding: 5px 10px; text-decoration: none; border-radius: 5px;">Edit</a>
-                        <form method="POST" action="#" style="display: inline-block; margin-left: 5px;">
-                            {% csrf_token %}
-                            <button type="submit" style="background-color: red; color: white; padding: 5px 10px; border: none; border-radius: 5px;">Delete</button>
-                        </form>
+                    <td style="padding: 10px; width: 200px; text-align: center;">
+                        <div style="display: flex; gap: 5px; justify-content: center;">
+                            <!-- View Button -->
+                            <a 
+                                href="{% url 'view_activity' activity.id %}" 
+                                style="background-color: #28a745; color: white; padding: 5px 10px; text-decoration: none; border-radius: 5px; white-space: nowrap;">
+                                View
+                            </a>
+                            <!-- Edit Button -->
+                            <a 
+                                href="{% url 'edit_activity' activity.id %}" 
+                                style="background-color: #007BFF; color: white; padding: 5px 10px; text-decoration: none; border-radius: 5px; white-space: nowrap;">
+                                Edit
+                            </a>
+                            <!-- Archive Button -->
+                            <form method="POST" action="#" style="display: inline;">
+                                {% csrf_token %}
+                                <button 
+                                    type="submit" 
+                                    style="background-color: orange; color: white; padding: 5px 10px; border: none; border-radius: 5px; white-space: nowrap;">
+                                    Archive
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 {% empty %}
@@ -97,6 +123,11 @@
                     {% endif %}
                 {% endfor %}
             </span>
+        </div>
+
+        <!-- View Archive Button -->
+        <div style="text-align: left; margin: 10px 0px;">
+            <a href="#" style="background-color: #007BFF; color: white; padding: 15px 10px; text-decoration: none; border-radius: 3px;">View Archive</a>
         </div>
     </div>
 </div>

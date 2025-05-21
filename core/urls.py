@@ -18,5 +18,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='/login/'), name='logout'),
     path('activities/<int:pk>/', views.view_activity, name='view_activity'),
     path('activities/<int:pk>/update/', views.update_activity, name='update_activity'),
+    path('activity/edit/<int:pk>/', views.edit_activity, name='edit_activity'),
+    path('activities/view/<int:id>/', views.view_activity, name='view_activity')
 ]
 

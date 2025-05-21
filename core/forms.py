@@ -2,18 +2,19 @@ from django import forms
 from .models import Activity
 
 class ActivityForm(forms.ModelForm):
-    faculty_name = forms.CharField(required=False, max_length=100, label='Faculty Name')
-    faculty_department = forms.CharField(required=False, max_length=100, label='Faculty Department')
-    student_name = forms.CharField(required=False, max_length=100, label='Student Name')
-    student_department = forms.CharField(required=False, max_length=100, label='Student Department')
-    staff_name = forms.CharField(required=False, max_length=100, label='Staff Name')
-    staff_department = forms.CharField(required=False, max_length=100, label='Staff Department')
+    # Additional fields with proper attributes for form control
+    faculty_name = forms.CharField(required=False, max_length=100, label='Faculty Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    faculty_department = forms.CharField(required=False, max_length=100, label='Faculty Department', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    student_name = forms.CharField(required=False, max_length=100, label='Student Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    student_department = forms.CharField(required=False, max_length=100, label='Student Department', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    staff_name = forms.CharField(required=False, max_length=100, label='Staff Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    staff_department = forms.CharField(required=False, max_length=100, label='Staff Department', widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Activity
         fields = [
-            'title', 'start_date', 'end_date', 'start_time', 'end_time', 
-            'venue', 'conducted_by', 'description', 'attachment', 
+            'title', 'start_date', 'end_date', 'start_time', 'end_time',
+            'venue', 'conducted_by', 'description', 'attachment',
             'fees_expenses', 'tags', 'status'
         ]
         widgets = {
@@ -33,5 +34,6 @@ class ActivityForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ActivityForm, self).__init__(*args, **kwargs)
+        # Ensure any additional field styling remains consistent
         for field_name in ['faculty_name', 'faculty_department', 'student_name', 'student_department', 'staff_name', 'staff_department']:
             self.fields[field_name].widget.attrs.update({'class': 'form-control'})

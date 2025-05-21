@@ -130,3 +130,17 @@ def update_activity(request, pk):
     else:
         form = ActivityForm(instance=activity)
     return render(request, 'update_activity.html', {'form': form, 'activity': activity})
+
+
+def edit_activity(request, pk):
+    activity = get_object_or_404(Activity, pk=pk)
+    
+    if request.method == 'POST':
+        form = ActivityForm(request.POST, request.FILES, instance=activity)
+        if form.is_valid():
+            form.save()
+            return redirect('manage_activities')  # Redirect to the activities list after saving
+    else:
+        form = ActivityForm(instance=activity)
+    
+    return render(request, 'edit_activity.html', {'form': form, 'activity': activity})

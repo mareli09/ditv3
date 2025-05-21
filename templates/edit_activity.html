@@ -1,0 +1,40 @@
+{% extends "cesostaff_base.html" %}
+
+{% block title %}Edit Activity{% endblock %}
+
+{% block content %}
+<style>
+    /* Always make form inputs full width */
+    .form-control {
+        width: 100%;
+    }
+
+    /* Force black text inside form fields even in dark mode */
+    .form-control, .form-control::placeholder {
+        color: #000 !important;
+    }
+
+    /* Optional: keep textareas readable too */
+    textarea.form-control {
+        color: #000 !important;
+    }
+    button[type="submit"]:hover {
+        background-color: #0056b3; /* darker blue on hover */
+        border-color: #0056b3;
+    }
+
+</style>
+<div class="container my-5">
+    <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 20px;">Edit Activity</h1>
+    <form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 15px;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" style="background-color: #007BFF; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+            Save Changes
+        </button>
+    </form>
+    <a href="{% url 'manage_activities' %}" style="margin-top: 15px; display: inline-block; color: #007BFF; text-decoration: underline;">
+        Back to Activities List
+    </a>
+</div>
+{% endblock %}
