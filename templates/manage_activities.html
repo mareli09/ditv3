@@ -81,8 +81,8 @@
                         <div style="display: flex; gap: 5px; justify-content: center;">
                             <!-- View Button -->
                             <a 
-                                href="{% url 'view_activity' activity.id %}" 
-                                style="background-color: #28a745; color: white; padding: 5px 10px; text-decoration: none; border-radius: 5px; white-space: nowrap;">
+                                href="{% url 'view_activity' pk=activity.id %}" 
+                                style="color: white; background-color: #28a745; padding: 5px 10px; text-decoration: none; border-radius: 5px; white-space: nowrap;">
                                 View
                             </a>
                             <!-- Edit Button -->

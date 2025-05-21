@@ -76,17 +76,30 @@ def create_activity(request):
             activity.student_department = request.POST.get('student_department')
             activity.staff_name = request.POST.get('staff_name')
             activity.staff_department = request.POST.get('staff_department')
-             # Handle fees and tags
+            # Handle fees and tags
             activity.fees_expenses = request.POST.get('fees_expenses')
             activity.tags = request.POST.get('tags')
 
+            # Save the activity instance to the database
             activity.save()
+
+            # Handle ManyToMany relationships
+            faculty_ids = request.POST.getlist('faculty')
+            student_ids = request.POST.getlist('students')
+            staff_ids = request.POST.getlist('staff')
+
+            # Set ManyToMany relationships
+            activity.faculty.set(faculty_ids)
+            activity.students.set(student_ids)
+            activity.staff.set(staff_ids)
+
             return redirect('manage_activities')
         else:
             print(form.errors)  # Debugging
     else:
         form = ActivityForm()
     return render(request, 'create_activity.html', {'form': form})
+
 
 @login_required
 def manage_activities(request):
@@ -113,22 +126,62 @@ def manage_activities(request):
     })
     
 @login_required
-def view_activity(request, pk):
-    activity = get_object_or_404(Activity, pk=pk)
-    return render(request, 'view_activity.html', {'activity': activity})
+def view_activity(request, pk=None, id=None):
+    key = pk or id
+    activity = get_object_or_404(Activity, pk=key)
+
+    faculties = activity.faculty.all()
+    students = activity.students.all()
+    staff = activity.staff.all()
+
+    context = {
+        'activity': activity,
+        'faculties': faculties,
+        'students': students,
+        'staff': staff,
+    }
+    return render(request, 'view_activity.html', context)
 
 @login_required
 def update_activity(request, pk):
     activity = get_object_or_404(Activity, pk=pk)
     if activity.status == 'Completed':
         return HttpResponse("This activity is finalized and cannot be edited.")
+    
     if request.method == 'POST':
         form = ActivityForm(request.POST, request.FILES, instance=activity)
         if form.is_valid():
-            form.save()
+            activity = form.save(commit=False)
+
+            # Add custom fields
+            activity.faculty_name = request.POST.get('faculty_name')
+            activity.faculty_department = request.POST.get('faculty_department')
+            activity.student_name = request.POST.get('student_name')
+            activity.student_department = request.POST.get('student_department')
+            activity.staff_name = request.POST.get('staff_name')
+            activity.staff_department = request.POST.get('staff_department')
+            # Handle fees and tags
+            activity.fees_expenses = request.POST.get('fees_expenses')
+            activity.tags = request.POST.get('tags')
+
+            # Save the activity instance to the database
+            activity.save()
+
+            # Update ManyToMany relationships
+            faculty_ids = request.POST.getlist('faculty')
+            student_ids = request.POST.getlist('students')
+            staff_ids = request.POST.getlist('staff')
+
+            activity.faculty.set(faculty_ids)
+            activity.students.set(student_ids)
+            activity.staff.set(staff_ids)
+
             return redirect('manage_activities')
+        else:
+            print(form.errors)  # Debugging
     else:
         form = ActivityForm(instance=activity)
+
     return render(request, 'update_activity.html', {'form': form, 'activity': activity})
 
 

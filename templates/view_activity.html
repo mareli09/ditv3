@@ -1,0 +1,70 @@
+{% extends "cesostaff_base.html" %}
+
+{% block title %}Activity Details{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background: #f9f9f9; color: black;">
+    <h1 style="text-align: center; font-size: 30pt;">{{ activity.title }}</h1>
+
+    <p><strong>Description:</strong> {{ activity.description }}</p>
+    <p><strong>Start Date:</strong> {{ activity.start_date }}</p>
+    <p><strong>End Date:</strong> {{ activity.end_date }}</p>
+    <p><strong>Time:</strong> {{ activity.start_time }} - {{ activity.end_time }}</p>
+    <p><strong>Venue:</strong> {{ activity.venue }}</p>
+    <p><strong>Conducted By:</strong> {{ activity.conducted_by }}</p>
+
+    <hr>
+
+    <h3>Faculty</h3>
+    {% if faculties %}
+        <ul>
+        {% for faculty in faculties %}
+            <li>{{ faculty.get_full_name|default:faculty.username }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No faculty assigned.</p>
+    {% endif %}
+
+    <h3>Students</h3>
+    {% if students %}
+        <ul>
+        {% for student in students %}
+            <li>{{ student.get_full_name|default:student.username }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No students assigned.</p>
+    {% endif %}
+
+    <h3>Staff</h3>
+    {% if staff %}
+        <ul>
+        {% for member in staff %}
+            <li>{{ member.get_full_name|default:member.username }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No staff assigned.</p>
+    {% endif %}
+
+    <hr>
+
+    <p><strong>Status:</strong> {{ activity.status }}</p>
+    <p><strong>Fees/Expenses:</strong> {{ activity.fees_expenses|default:"N/A" }}</p>
+    <p><strong>Tags:</strong> {{ activity.tags|default:"N/A" }}</p>
+    <p><strong>Attachment:</strong> 
+        {% if activity.attachment %}
+            <a href="{{ activity.attachment.url }}" target="_blank">View Attachment</a>
+        {% else %}
+            No Attachment
+        {% endif %}
+    </p>
+    <p><strong>Date Submitted:</strong> {{ activity.date_submitted|date:"Y-m-d H:i" }}</p>
+    <p><strong>Last Edited Date:</strong> {{ activity.last_edited_date|date:"Y-m-d H:i" }}</p>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'manage_activities' %}" style="background-color: #007BFF; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Back to Activities</a>
+    </div>
+</div>
+{% endblock %}
